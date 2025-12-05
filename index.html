@@ -508,7 +508,7 @@
   const ADMIN_EMAIL = 'Smartauthenticationchat@gmail.com';
   const PDF_PREFIX = 'activation-request';
 
-  /* ---------------- PRELOADER ---------------- */
+  /* ---------------- Preloader ---------------- */
   const PRE = document.getElementById('sa-preloader');
   function hidePreloader(){
     try{
@@ -517,13 +517,13 @@
       PRE.style.opacity = '0';
       PRE.style.visibility = 'hidden';
       PRE.style.pointerEvents = 'none';
-    }catch(e){ console.warn('hidePreloader', e); }
+    }catch(e){ /* ignore */ }
   }
   document.addEventListener('DOMContentLoaded', ()=> setTimeout(hidePreloader, 600));
   window.addEventListener('load', ()=> setTimeout(hidePreloader, 300));
   setTimeout(()=> { if(PRE && PRE.getAttribute('aria-hidden') !== 'true') hidePreloader(); }, 7000);
 
-  /* ---------------- OPEN PAGE HELPER ---------------- */
+  /* ---------------- Helpers ---------------- */
   function openPageById(slug){
     if(!slug) return;
     const normalized = String(slug).trim().toLowerCase();
@@ -536,40 +536,60 @@
     }
   }
 
-  /* ---------------- UI WIRING (service cards + menu) ---------------- */
-  document.querySelectorAll('.service-card[data-open]').forEach(card => {
+  function formatPrice(){
+    try{
+      const p = getComputedStyle(document.documentElement).getPropertyValue('--price');
+      return '$' + (parseFloat(p) || 149.90).toFixed(2);
+    }catch(e){ return '$149.90'; }
+  }
+
+  /* ---------------- UI wiring (service cards & menu) ---------------- */
+  document.querySelectorAll('.service-card[data-open]').forEach(card=>{
     card.addEventListener('click', ()=> openPageById(card.getAttribute('data-open')));
-    card.addEventListener('keydown', (e)=> { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPageById(card.getAttribute('data-open')); }});
+    card.addEventListener('keydown', (e)=> { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openPageById(card.getAttribute('data-open')); }});
   });
   document.querySelectorAll('#menu3d [data-open]').forEach(a=>{
-    a.addEventListener('click', (ev)=>{ ev.preventDefault(); const id = a.getAttribute('data-open'); if(id) openPageById(id); const menu = document.getElementById('menu3d'); if(menu) menu.classList.remove('open'); });
+    a.addEventListener('click', (ev)=>{ ev.preventDefault(); const id = a.getAttribute('data-open'); if(id) openPageById(id); const menu=document.getElementById('menu3d'); if(menu) menu.classList.remove('open'); });
   });
   const openBtn = document.getElementById('open-services');
   const select3d = document.getElementById('select3d');
   const menu3d = document.getElementById('menu3d');
   if(openBtn){
-    openBtn.addEventListener('click', ()=> { if(!menu3d) return; const now = !menu3d.classList.contains('open'); menu3d.classList.toggle('open', now); openBtn.setAttribute('aria-expanded', String(now)); });
+    openBtn.addEventListener('click', ()=> { if(!menu3d) return; const now=!menu3d.classList.contains('open'); menu3d.classList.toggle('open', now); openBtn.setAttribute('aria-expanded', String(now)); });
   }
   if(select3d){
     select3d.addEventListener('click', ()=> { if(menu3d) menu3d.classList.toggle('open'); });
-    select3d.addEventListener('keypress', (e)=> { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if(menu3d) menu3d.classList.toggle('open'); }});
+    select3d.addEventListener('keypress', (e)=> { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(menu3d) menu3d.classList.toggle('open'); }});
   }
 
-  /* ---------------- CONTACT BUTTON -> GMAIL / MAILTO ---------------- */
+  /* ---------------- Contact button: immediate redirect to mail app ---------------- */
+  function redirectToMailApp(to, subject, body) {
+    // Try Gmail app scheme first (works when Gmail app installed)
+    const gmailScheme = `googlegmail://co?to=${encodeURIComponent(to)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // Immediate navigation (redirect)
+    window.location.href = gmailScheme;
+
+    // If app not installed, fallback to mailto after short delay (page still visible)
+    setTimeout(()=>{
+      const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      try {
+        if(!document.hidden) window.location.href = mailto;
+      } catch(e) {
+        window.location.href = mailto;
+      }
+    }, 700);
+  }
+
   const contactBtn = document.getElementById('contact-us');
   if(contactBtn){
-    contactBtn.addEventListener('click', ()=> {
+    contactBtn.addEventListener('click', function(){
       const subject = 'General inquiry — ReactivationHub';
-      const body = encodeURIComponent('Hello,%0D%0A%0D%0AI would like to contact the ReactivationHub team regarding: ' + subject + '%0D%0A%0D%0ARegards,%0D%0A[Your name]');
-      const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(ADMIN_EMAIL) + '&su=' + encodeURIComponent(subject) + '&body=' + body;
-      const w = window.open(gmailUrl, '_blank');
-      if(!w) {
-        window.location.href = 'mailto:' + encodeURIComponent(ADMIN_EMAIL) + '?subject=' + encodeURIComponent(subject) + '&body=' + body;
-      }
+      const body = 'Hello,%0A%0AI would like to contact the ReactivationHub team regarding: ' + subject + '%0A%0ARegards,%0A[Your name]';
+      redirectToMailApp(ADMIN_EMAIL, subject, body);
     });
   }
 
-  /* ---------------- jsPDF loader & helpers ---------------- */
+  /* ---------------- jsPDF loader ---------------- */
   function loadJsPDF(){
     return new Promise((resolve,reject)=>{
       if(window.jspdf && (window.jspdf.jsPDF || window.jspdf.default)) return resolve(window.jspdf);
@@ -584,140 +604,149 @@
     if(!window.jspdf) return null;
     return window.jspdf.jsPDF || window.jspdf.default || window.jspdf;
   }
-  function formatPrice(){ try{ const p = getComputedStyle(document.documentElement).getPropertyValue('--price'); return '$' + (parseFloat(p) || 149.90).toFixed(2);}catch(e){ return '$149.90'; } }
 
-  /* ---------------- Ensure #success element exists ---------------- */
-  function ensureSuccessBlock(){
-    let success = document.getElementById('success');
-    if(success) return success;
-    success = document.createElement('div');
-    success.id = 'success';
-    success.style.display = 'none';
-    success.style.padding = '12px';
-    success.style.borderRadius = '10px';
-    success.style.background = 'linear-gradient(180deg,#f7fffa,#eefdf1)';
-    success.style.marginTop = '12px';
-    success.style.border = '1px solid rgba(16,32,39,0.04)';
-    success.innerHTML = '<p style="margin:0 0 8px">Almost done — your mail client was opened. <strong>Remember to attach the downloaded file</strong> before sending.</p><a id="emailLink" style="font-weight:700; text-decoration:none; display:none;">Open mail client manually</a>';
-    const container = document.querySelector('.container') || document.body;
-    container.appendChild(success);
-    return success;
+  /* ---------------- Modal / Popup for "Open Mail App" ---------------- */
+  function createMailModal(){
+    // if exists, return
+    if(document.getElementById('mailModal')) return document.getElementById('mailModal');
+    const overlay = document.createElement('div');
+    overlay.id = 'mailModal';
+    overlay.style.position = 'fixed';
+    overlay.style.inset = '0';
+    overlay.style.display = 'grid';
+    overlay.style.placeItems = 'center';
+    overlay.style.background = 'rgba(8,12,18,0.45)';
+    overlay.style.zIndex = '999999';
+    overlay.innerHTML = `
+      <div style="width:92%;max-width:520px;background:var(--card,white);border-radius:12px;padding:18px;box-shadow:0 20px 50px rgba(2,6,23,0.5);text-align:left">
+        <h3 style="margin:0 0 8px;font-size:18px">Almost done</h3>
+        <p style="margin:0 0 12px;color:var(--muted,#6b7a86)">We saved a copy of your request to your device. Please tap "Open Mail App" to open your email app and send the message to our team. Remember to attach the downloaded file if you want.</p>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+          <button id="mailCancel" style="background:transparent;border:1px solid rgba(16,32,39,0.06);padding:10px 14px;border-radius:10px;cursor:pointer">Cancel</button>
+          <button id="mailOpen" style="background:linear-gradient(90deg,var(--accent,#0b84ff),var(--accent-2,#7b61ff));color:#fff;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer">Open Mail App</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // close handlers
+    overlay.querySelector('#mailCancel').addEventListener('click', ()=> { overlay.style.display='none'; });
+    // mailOpen will be wired by caller (so it can pass subject/body)
+    return overlay;
   }
 
-  /* ---------------- Delegated submit handler for .reg-form ---------------- */
+  /* ---------------- Submit handling (generate file, then show modal) ---------------- */
   document.addEventListener('submit', async function(ev){
     const form = ev.target;
     if(!form || !form.matches || !form.matches('.reg-form')) return;
     ev.preventDefault();
 
-    // disable submit buttons while processing
-    const submitBtns = Array.from(form.querySelectorAll('button[type="submit"], input[type="submit"]'));
-    submitBtns.forEach(b=> b.disabled = true);
+    // quickly collect fields
+    const fd = new FormData(form);
+    const payload = {
+      service: form.dataset.service || 'Activation Request',
+      price: formatPrice(),
+      name: fd.get('name') || '',
+      email: fd.get('email') || '',
+      phone: fd.get('phone') || '',
+      location: fd.get('location') || '',
+      payment_method: fd.get('payment_method') || '',
+      activation_code: fd.get('activation_code') || '',
+      notes: fd.get('notes') || ''
+    };
 
+    if(!payload.name || !payload.email){
+      alert('Please provide your full name and a valid email address.');
+      return;
+    }
+
+    // generate PDF (or fallback to JSON)
     try {
-      const fd = new FormData(form);
-      const payload = { service: form.dataset.service || 'Activation Request', price: formatPrice() };
-      fd.forEach((v,k)=> payload[k] = v);
-
-      if(!payload.name || !payload.email){
-        alert('Please provide your full name and a valid email address.');
-        submitBtns.forEach(b=> b.disabled = false);
-        return;
-      }
-
-      // Attempt PDF generation; fallback to JSON download
-      let savedFilename = '';
-      try {
-        await loadJsPDF();
-        const jsPDFCtor = getJsPDFCtor();
-        if(!jsPDFCtor) throw new Error('jsPDF ctor not available');
+      await loadJsPDF().catch(()=>{ throw new Error('jsPDF load failed'); });
+      const jsPDFCtor = getJsPDFCtor();
+      if(jsPDFCtor){
         const doc = new jsPDFCtor();
         doc.setFontSize(14);
         doc.text('Smart Authentication — Activation Request', 14, 18);
         doc.setFontSize(11);
         let y = 30;
-        doc.text(`Service: ${payload.service}`, 14, y); y += 8;
-        doc.text(`Price: ${payload.price}`, 14, y); y += 10;
-        const keys = ['name','email','phone','location','payment_method','activation_code','notes'];
-        keys.forEach(k=> {
-          if(payload[k]) {
+        doc.text(`Service: ${payload.service}`, 14, y); y+=8;
+        doc.text(`Price: ${payload.price}`, 14, y); y+=10;
+        ['name','email','phone','location','payment_method','activation_code','notes'].forEach(k=>{
+          if(payload[k]){
             const label = k.replace(/_/g,' ');
             const lines = doc.splitTextToSize(`${label}: ${payload[k]}`, 170);
             doc.text(lines, 14, y);
             y += (lines.length * 6) + 4;
           }
         });
-        doc.text('Generated by Smart Authentication portal.', 14, Math.min(y + 8, 280));
-        savedFilename = `${PDF_PREFIX}-${payload.service.replace(/\s+/g,'-')}-${Date.now()}.pdf`;
-        doc.save(savedFilename);
-      } catch (pdfErr) {
-        console.warn('PDF generation failed, falling back to JSON', pdfErr);
-        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-        savedFilename = `${PDF_PREFIX}-${payload.service.replace(/\s+/g,'-')}-${Date.now()}.json`;
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = savedFilename; document.body.appendChild(a); a.click(); a.remove();
-        URL.revokeObjectURL(url);
-      }
-
-      // Build email subject/body
-      const subject = `Activation request — ${payload.service} — ${payload.name || ''}`;
-      const bodyLines = [];
-      bodyLines.push(`Service: ${payload.service}`);
-      bodyLines.push(`Price: ${payload.price}`);
-      ['name','email','phone','location','payment_method','activation_code','notes'].forEach(k => {
-        if(payload[k]) bodyLines.push(`${k.replace('_',' ')}: ${payload[k]}`);
-      });
-      bodyLines.push('');
-      bodyLines.push('---');
-      bodyLines.push('Please attach the downloaded file (PDF or JSON) to this email before sending.');
-      const body = encodeURIComponent(bodyLines.join('\n'));
-
-      // Try opening Gmail compose tab (preferred)
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(ADMIN_EMAIL)}&su=${encodeURIComponent(subject)}&body=${body}`;
-      const newWin = window.open(gmailUrl, '_blank');
-
-      // Show success block and manual mail link fallback
-      const success = ensureSuccessBlock();
-      const emailLink = document.getElementById('emailLink');
-      if(newWin) {
-        success.style.display = 'block';
-        if(emailLink) emailLink.style.display = 'none';
+        doc.text('Generated by Smart Authentication portal.', 14, Math.min(y+8, 280));
+        const filename = `${PDF_PREFIX}-${payload.service.replace(/\s+/g,'-')}-${Date.now()}.pdf`;
+        // trigger download (this does not block UI)
+        doc.save(filename);
       } else {
-        const mailto = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
-        success.style.display = 'block';
-        if(emailLink){
-          emailLink.href = mailto;
-          emailLink.textContent = 'Open mail client manually (click here)';
-          emailLink.style.display = 'inline-block';
-          emailLink.addEventListener('click', ()=> {
-            setTimeout(()=> alert('Reminder: attach the downloaded file (PDF/JSON) to this email before sending.'), 250);
-          }, { once: true });
-        } else {
-          window.location.href = mailto;
-        }
+        throw new Error('jsPDF constructor missing');
       }
-
-      // show toast
-      const t = document.createElement('div'); t.className = 'sa-toast'; t.textContent = 'Document saved. Mail compose opened — attach file if needed.'; document.body.appendChild(t);
-      setTimeout(()=> t.remove(), 6000);
-
-      try{ form.reset(); } catch(e){}
-    } catch (err) {
-      console.error('Submit error', err);
-      alert('An unexpected error occurred. Check console for details.');
-    } finally {
-      submitBtns.forEach(b=> b.disabled = false);
+    } catch(pdfErr){
+      // fallback JSON download
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const filename = `${PDF_PREFIX}-${payload.service.replace(/\s+/g,'-')}-${Date.now()}.json`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
     }
+
+    // build subject/body for mail
+    const subject = `Activation request — ${payload.service} — ${payload.name}`;
+    const bodyLines = [
+      `Service: ${payload.service}`,
+      `Price: ${payload.price}`,
+      `Name: ${payload.name}`,
+      `Email: ${payload.email}`,
+      payload.phone ? `Phone: ${payload.phone}` : '',
+      payload.location ? `Location: ${payload.location}` : '',
+      payload.payment_method ? `Payment method: ${payload.payment_method}` : '',
+      payload.activation_code ? `Activation code: ${payload.activation_code}` : '',
+      payload.notes ? `Notes: ${payload.notes}` : '',
+      '',
+      'Please attach the downloaded file (PDF/JSON) to this email before sending.'
+    ].filter(Boolean);
+    const bodyText = bodyLines.join('\n');
+
+    // show modal
+    const modal = createMailModal();
+    modal.style.display = 'grid';
+
+    // wire mailOpen with subject/body redirect (remove old listeners first to avoid duplicates)
+    const mailOpen = modal.querySelector('#mailOpen');
+    const mailCancel = modal.querySelector('#mailCancel');
+
+    // remove existing handlers by cloning node
+    const newOpen = mailOpen.cloneNode(true);
+    mailOpen.parentNode.replaceChild(newOpen, mailOpen);
+
+    const newCancel = mailCancel.cloneNode(true);
+    mailCancel.parentNode.replaceChild(newCancel, mailCancel);
+
+    newOpen.addEventListener('click', function(){
+      // redirect to mail app (Gmail scheme first, then mailto fallback)
+      redirectToMailApp(ADMIN_EMAIL, subject, bodyText);
+    });
+    newCancel.addEventListener('click', function(){
+      modal.style.display = 'none';
+    });
+
+    // reset form after showing modal so user sees fresh state if they return
+    try{ form.reset(); }catch(e){ /* ignore */ }
   });
 
-  /* ---------------- keyboard accessibility & menu close ---------------- */
+  /* ---------------- Accessibility & menu cleanup ---------------- */
   document.addEventListener('keydown', function(e){
     if((e.key === 'Enter' || e.key === ' ') && e.target && e.target.hasAttribute && e.target.hasAttribute('data-open')) {
       e.preventDefault();
       openPageById(e.target.getAttribute('data-open'));
     }
   });
-
   document.addEventListener('click', function(e){
     const menu = document.getElementById('menu3d');
     const select = document.getElementById('select3d');
