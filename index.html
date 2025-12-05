@@ -709,7 +709,7 @@
       payload.activation_code ? `Activation code: ${payload.activation_code}` : '',
       payload.notes ? `Notes: ${payload.notes}` : '',
       '',
-      'Please attach the downloaded file (PDF/JSON) to this email before sending.'
+      'Please attach the downloaded file (PDF) to this email before sending.'
     ].filter(Boolean);
     const bodyText = bodyLines.join('\n');
 
@@ -762,3 +762,4 @@
 </script>
 </body>
 </html>
+
