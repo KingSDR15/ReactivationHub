@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <title>ReactivationHub — 3D Activation Hub</title>
+  <meta name="description" content="ReactivationHub — Activation code purchase and account reactivation services with a polished 3D homepage." />
+  <style>
+  :root{
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --muted: #5b6b78;
+    --text: #102027;
+    --accent: #0b84ff;
+    --accent-2: #7b61ff;
+    --price: 149.90;
+    --admin-email: Smartauthenticationchat@gmail.com;
+    --radius: 12px;
+    --shadow: 0 8px 30px rgba(16,32,39,0.04);
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    background:radial-gradient(900px 400px at 8% 8%, rgba(11,132,255,0.03), transparent), linear-gradient(180deg,var(--bg) 0%, #eef6ff 100%);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    padding-top:env(safe-area-inset-top);
+  }
+
+  header{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 20px;
+    position:sticky;
+    top:0;
+    z-index:60;
+    backdrop-filter:blur(6px);
+    background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
+    border-bottom:1px solid rgba(16,32,39,0.03);
+  }
+
+  .brand{display:flex;gap:12px;align-items:center}
+  .btn{background:var(--card);border:1px solid rgba(16,32,39,0.06);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(16,32,39,0.03)}
+
+  .container{max-width:1200px;margin:12px auto;padding:0 18px}
+  .hero{display:grid;grid-template-columns:1fr 480px;gap:20px;align-items:start;padding:8px 0 24px}
+  .kicker{display:inline-block;background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:8px 12px;border-radius:999px;color:white;font-weight:700;font-size:13px}
+  .title{font-size:32px;margin:6px 0 8px}
+  .subtitle{color:var(--muted);margin:0 0 12px}
+
+  .stage{width:100%;height:320px;display:grid;place-items:center;perspective:1100px}
+  .cube-wrap{width:320px;height:280px;border-radius:14px;background:linear-gradient(180deg,#fff,#fbfdff);display:grid;place-items:center;box-shadow:var(--shadow);transition:transform .9s cubic-bezier(.2,.9,.2,1)}
+  .cube{position:relative;width:92%;height:86%;transform-style:preserve-3d;animation:float 6s ease-in-out infinite}
+  @keyframes float{0%{transform:translateY(0) rotateX(4deg) rotateY(-10deg)}50%{transform:translateY(-12px) rotateX(8deg) rotateY(10deg)}100%{transform:translateY(0) rotateX(4deg) rotateY(-10deg)}}
+  .face{position:absolute;inset:0;border-radius:12px;padding:14px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;border:1px solid rgba(16,32,39,0.04)}
+  .front h2{margin:0;font-size:18px}
+  .front p{color:var(--muted);margin:8px 0}
+
+  .select-3d{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfdff);cursor:pointer;border:1px solid rgba(16,32,39,0.04)}
+  .menu-3d{margin-top:10px;padding:8px;border-radius:12px;background:var(--card);box-shadow:var(--shadow);display:none}
+  .menu-3d.open{display:block}
+  .menu-3d a{display:flex;gap:10px;align-items:center;padding:8px;border-radius:8px;text-decoration:none;color:var(--text);font-weight:700}
+
+  .panel{background:var(--card);border-radius:12px;padding:14px;border:1px solid rgba(16,32,39,0.04);box-shadow:var(--shadow)}
+  .muted{color:var(--muted)}
+  .tiny{font-size:12px;color:var(--muted)}
+
+  .service-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+  .service-card{display:flex;align-items:center;gap:12px;padding:10px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfdff);cursor:pointer;border:1px solid rgba(16,32,39,0.03);transition:transform .18s,box-shadow .18s}
+  .service-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(16,32,39,0.06)}
+  .service-icon{width:48px;height:48px;border-radius:12px;background-size:cover;background-position:center;flex:0 0 48px;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+  .service-card .title{font-weight:800}
+
+  form{display:grid;gap:12px}
+  label{font-size:13px;color:var(--muted);display:block}
+  input,select,textarea{padding:12px;border-radius:10px;border:1px solid rgba(16,32,39,0.06);background:#fff;color:var(--text);font-size:15px;width:100%}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .primary{padding:12px 16px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;cursor:pointer}
+
+  #pages > section{display:none;margin-top:8px}
+  #pages > section.active{display:block}
+
+  footer{padding:18px 0;color:var(--muted);font-size:13px}
+
+  .sa-toast{position:fixed;right:16px;bottom:18px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;z-index:99999}
+
+  #sa-preloader{position:fixed;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,#fff,#eef6ff);z-index:99999}
+
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;gap:14px}
+    .stage{height:260px}
+    .cube-wrap{width:92%;height:220px}
+    .row{grid-template-columns:1fr}
+    .service-icon{width:42px;height:42px}
+  }
+  @media (max-width:520px){
+    .title{font-size:22px}
+  }
+
+  :focus{outline:3px solid rgba(11,132,255,0.12);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){.cube{animation:none!important;transition:none!important}}
+
+  /* logo styles */
+  .logo-pure{ --size: 64px; --accent-a: #0b84ff; --accent-b: #7b61ff; width: var(--size); height: var(--size); border-radius: 50%; display: inline-grid; place-items: center; position: relative; background: linear-gradient(135deg, var(--accent-a), var(--accent-b)); box-shadow: 0 8px 24px rgba(11,132,255,0.08); cursor: default; transition: transform .18s ease, box-shadow .18s ease; -webkit-tap-highlight-color: transparent; user-select: none; outline: none;}
+  .logo-pure::before{ content: ''; position: absolute; width: calc(var(--size) * 0.78); height: calc(var(--size) * 0.78); border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.92) 30%, rgba(255,255,255,0.9) 48%); box-shadow: inset 0 2px 10px rgba(0,0,0,0.04); z-index: 1; }
+  .logo-pure::after{ content:'';position:absolute;width:calc(var(--size) * 0.56);height:calc(var(--size) * 0.12);background: linear-gradient(90deg, rgba(255,255,255,0.65), rgba(255,255,255,0.15));border-radius:6px;top: calc(50% - (var(--size) * 0.06));left: calc(50% - (var(--size) * 0.28));transform: rotate(-12deg);z-index:2;opacity:0.85;pointer-events:none; }
+  .logo-glyph{ position: relative; z-index: 3; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-weight: 800; font-size: calc(var(--size) * 0.46); color: #0b2340; display:inline-block; transform: translateY(1px); text-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 4px 12px rgba(3,16,40,0.06); }
+
+  </style>
+</head>
+<body>
+  <!-- PRELOADER -->
+  <div id="sa-preloader" aria-hidden="false">
+    <div style="text-align:center;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:var(--text)">
+      <div style="width:84px;height:84px;border-radius:50%;overflow:hidden;display:grid;place-items:center;margin-bottom:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2))">
+        <!-- user requested logo0.webp -->
+      </div>
+      <div style="font-weight:700">ReactivationHub</div>
+      <div class="tiny" style="margin-top:6px">Loading......</div>
+    </div>
+  </div>
+
+  <header>
+    <div class="brand">
+      <div class="logo-pure" role="img" aria-label="ReactivationHub logo" tabindex="0">
+        <span class="logo-glyph"></span>
+      </div>
+      <div>
+        <h1 style="margin:0">ReactivationHub</h1>
+        <p class="lead" style="margin:0;font-size:13px;color:var(--muted)">Professional account reactivation & activation codes — secure, fast, elegant.</p>
+      </div>
+    </div>
+
+    <nav>
+      <button class="btn" id="open-services" aria-expanded="false" aria-controls="menu3d">Services ▾</button>
+      <button class="btn" id="contact-us">Contact</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <main>
+      <section class="hero">
+        <div class="hero-left">
+          <div class="kicker">ReactivationHub</div>
+          <h2 class="title">Activation codes & professional service reactivation.</h2>
+          <p class="subtitle">Purchase a validated activation code for <strong>$149.90</strong> — payment via bank or crypto. Choose a service below to begin registration.</p>
+
+          <div class="panel">
+            <h3 style="margin-top:0">Quick Actions</h3>
+            <div class="service-list" id="quick-list">
+              <div class="service-card" data-open="doordash" role="button" tabindex="0">
+                <div class="service-icon" style="background-image:url('logo1.webp')"></div>
+                <div style="flex:1"><div class="title">DoorDash Reactivation</div><div class="tiny">DoorDash reactivation service</div></div>
+                <div style="font-weight:800">$149.90</div>
+              </div>
+
+              <div class="service-card" data-open="ubereats" role="button" tabindex="0">
+                <div class="service-icon" style="background-image:url('logo2.jpg')"></div>
+                <div style="flex:1"><div class="title">Uber Eats Reactivation</div><div class="tiny">Uber Eats account reactivation</div></div>
+                <div style="font-weight:800">$149.90</div>
+              </div>
+
+              <div class="service-card" data-open="grubhub" role="button" tabindex="0">
+                <div class="service-icon" style="background-image:url('logo3.jpg')"></div>
+                <div style="flex:1"><div class="title">GrubHub Reactivation</div><div class="tiny">GrubHub reactivation</div></div>
+                <div style="font-weight:800">$149.90</div>
+              </div>
+
+              <div class="service-card" data-open="lyft" role="button" tabindex="0">
+                <div class="service-icon" style="background-image:url('logo4.jpg')"></div>
+                <div style="flex:1"><div class="title">Lyft Account Reactivation</div><div class="tiny">Lyft account reactivation</div></div>
+                <div style="font-weight:800">$149.90</div>
+              </div>
+
+              <div class="service-card" data-open="instacart" role="button" tabindex="0">
+                <div class="service-icon" style="background-image:url('logo5.jpg')"></div>
+                <div style="flex:1"><div class="title">Instacart Reactivation</div><div class="tiny">Instacart reactivation</div></div>
+                <div style="font-weight:800">$149.90</div>
+              </div>
+
+              <div class="service-card" data-open="shipt" role="button" tabindex="0">
+                <div class="service-icon" style="background-image:url('logo6.jpg')"></div>
+                <div style="flex:1"><div class="title">Shipt Reactivation</div><div class="tiny">Shipt reactivation</div></div>
+                <div style="font-weight:800">$149.90</div>
+              </div>
+
+              <div class="service-card" data-open="uberx" role="button" tabindex="0">
+                <div class="service-icon" style="background-image:url('logo7.jpg')"></div>
+                <div style="flex:1"><div class="title">Uber X Reactivation</div><div class="tiny">Uber X reactivation</div></div>
+                <div style="font-weight:800">$149.90</div>
+              </div>
+            </div>
+
+            <p class="tiny" style="margin-top:8px">All forms are submitted for manual review. After review you'll receive a professional response within 24 hours.</p>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel">
+            <h4 style="margin:0 0 8px">Why ReactivationHub?</h4>
+            <p class="muted">We provide secure, audited activation flows and experienced manual review. No automatic DB writes — everything is handled manually and securely.</p>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="cube-wrap panel" id="cubeWrap" aria-hidden="true">
+            <div class="cube" id="cube" aria-hidden="true">
+              <div class="face front">
+                <h2>Start an activation</h2>
+                <p>Select a service and open the registration form.</p>
+
+                <div>
+                  <div class="select-3d" id="select3d" role="button" tabindex="0" aria-haspopup="true" aria-controls="menu3d">
+                    <div style="font-weight:800">Choose service</div>
+                    <div style="flex:1"></div>
+                    <div class="caret">▾</div>
+                  </div>
+
+                  <div class="menu3d-wrapper">
+                    <div class="menu-3d" id="menu3d" role="menu" aria-hidden="true">
+                      <a href="#doordash" data-open="doordash"><img src="logo1.jpg" alt="" style="width:28px;height:28px;border-radius:6px;margin-right:8px">DoorDash Reactivation</a>
+                      <a href="#ubereats" data-open="ubereats"><img src="logo2.jpg" alt="" style="width:28px;height:28px;border-radius:6px;margin-right:8px">Uber Eats Reactivation</a>
+                      <a href="#grubhub" data-open="grubhub"><img src="logo3.jpg" alt="" style="width:28px;height:28px;border-radius:6px;margin-right:8px">GrubHub Reactivation</a>
+                      <a href="#lyft" data-open="lyft"><img src="logo4.jpg" alt="" style="width:28px;height:28px;border-radius:6px;margin-right:8px">Lyft Account Reactivation</a>
+                      <a href="#instacart" data-open="instacart"><img src="logo5.jpg" alt="" style="width:28px;height:28px;border-radius:6px;margin-right:8px">Instacart Reactivation</a>
+                      <a href="#shipt" data-open="shipt"><img src="logo6.jpg" alt="" style="width:28px;height:28px;border-radius:6px;margin-right:8px">Shipt Reactivation</a>
+                      <a href="#uberx" data-open="uberx"><img src="logo7.jpg" alt="" style="width:28px;height:28px;border-radius:6px;margin-right:8px">Uber X Reactivation</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="face right" aria-hidden="true"></div>
+              <div class="face left" aria-hidden="true"></div>
+              <div class="face top" aria-hidden="true"></div>
+              <div class="face bottom" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGES -->
+      <section style="padding:0 0 40px">
+        <div id="pages" class="pages-wrapper">
+
+          <!-- DoorDash -->
+          <section id="page-doordash" class="panel-page" aria-labelledby="doordash-title">
+            <div class="panel">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:56px;height:56px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(16,32,39,0.04);overflow:hidden">
+                  <img src="logo1.webp" alt="doordash" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div><h3 id="doordash-title" style="margin:0">DoorDash Reactivation</h3><div class="tiny">DoorDash reactivation — price $149.90</div></div>
+              </div>
+
+              <div style="height:12px"></div>
+
+              <form class="reg-form" data-service="DoorDash" autocomplete="on">
+                <label>Full name<input name="name" required placeholder="Full name"></label>
+                <label>Email address<input type="email" name="email" required placeholder="email@domain.com"></label>
+                <div class="row">
+                  <label>Phone number<input name="phone" required placeholder="+1 555 000 000"></label>
+                  <label>Location<input name="location" required placeholder="City, Country"></label>
+                </div>
+                <label>Payment method
+                  <select name="payment_method"><option value="bank">Bank</option><option value="crypto">Crypto</option></select>
+                </label>
+                <label>Activation code (optional)<input name="activation_code" placeholder="Optional"></label>
+                <label>Notes / Additional Details<textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea></label>
+
+                <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+                  <div class="muted">Price: <strong>$149.90</strong></div>
+                  <button type="submit" class="primary">Submit for Review</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Uber Eats -->
+          <section id="page-ubereats" class="panel-page" aria-labelledby="ubereats-title">
+            <div class="panel">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:56px;height:56px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(16,32,39,0.04);overflow:hidden">
+                  <img src="logo2.jpg" alt="uber eats" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div><h3 id="ubereats-title" style="margin:0">Uber Eats Reactivation</h3><div class="tiny">Uber Eats reactivation — price $149.90</div></div>
+              </div>
+
+              <div style="height:12px"></div>
+
+              <form class="reg-form" data-service="Uber Eats" autocomplete="on">
+                <label>Full name<input name="name" required placeholder="Full name"></label>
+                <label>Email address<input type="email" name="email" required placeholder="email@domain.com"></label>
+                <div class="row">
+                  <label>Phone number<input name="phone" required placeholder="+1 555 000 000"></label>
+                  <label>Location<input name="location" required placeholder="City, Country"></label>
+                </div>
+                <label>Payment method
+                  <select name="payment_method"><option value="bank">Bank</option><option value="crypto">Crypto</option></select>
+                </label>
+                <label>Activation code (optional)<input name="activation_code" placeholder="Optional"></label>
+                <label>Notes / Additional Details<textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea></label>
+
+                <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+                  <div class="muted">Price: <strong>$149.90</strong></div>
+                  <button type="submit" class="primary">Submit for Review</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- GrubHub -->
+          <section id="page-grubhub" class="panel-page" aria-labelledby="grubhub-title">
+            <div class="panel">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:56px;height:56px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(16,32,39,0.04);overflow:hidden">
+                  <img src="logo3.jpg" alt="grubhub" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div><h3 id="grubhub-title" style="margin:0">GrubHub Reactivation</h3><div class="tiny">GrubHub reactivation — price $149.90</div></div>
+              </div>
+
+              <div style="height:12px"></div>
+
+              <form class="reg-form" data-service="GrubHub" autocomplete="on">
+                <label>Full name<input name="name" required placeholder="Full name"></label>
+                <label>Email address<input type="email" name="email" required placeholder="email@domain.com"></label>
+                <div class="row">
+                  <label>Phone number<input name="phone" required placeholder="+1 555 000 000"></label>
+                  <label>Location<input name="location" required placeholder="City, Country"></label>
+                </div>
+                <label>Payment method
+                  <select name="payment_method"><option value="bank">Bank</option><option value="crypto">Crypto</option></select>
+                </label>
+                <label>Activation code (optional)<input name="activation_code" placeholder="Optional"></label>
+                <label>Notes / Additional Details<textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea></label>
+
+                <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+                  <div class="muted">Price: <strong>$149.90</strong></div>
+                  <button type="submit" class="primary">Submit for Review</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Lyft -->
+          <section id="page-lyft" class="panel-page" aria-labelledby="lyft-title">
+            <div class="panel">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:56px;height:56px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(16,32,39,0.04);overflow:hidden">
+                  <img src="logo4.jpg" alt="lyft" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div><h3 id="lyft-title" style="margin:0">Lyft Account Reactivation</h3><div class="tiny">Lyft reactivation — price $149.90</div></div>
+              </div>
+
+              <div style="height:12px"></div>
+
+              <form class="reg-form" data-service="Lyft" autocomplete="on">
+                <label>Full name<input name="name" required placeholder="Full name"></label>
+                <label>Email address<input type="email" name="email" required placeholder="email@domain.com"></label>
+                <div class="row">
+                  <label>Phone number<input name="phone" required placeholder="+1 555 000 000"></label>
+                  <label>Location<input name="location" required placeholder="City, Country"></label>
+                </div>
+                <label>Payment method
+                  <select name="payment_method"><option value="bank">Bank</option><option value="crypto">Crypto</option></select>
+                </label>
+                <label>Activation code (optional)<input name="activation_code" placeholder="Optional"></label>
+                <label>Notes / Additional Details<textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea></label>
+
+                <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+                  <div class="muted">Price: <strong>$149.90</strong></div>
+                  <button type="submit" class="primary">Submit for Review</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Instacart -->
+          <section id="page-instacart" class="panel-page" aria-labelledby="instacart-title">
+            <div class="panel">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:56px;height:56px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(16,32,39,0.04);overflow:hidden">
+                  <img src="logo5.jpg" alt="instacart" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div><h3 id="instacart-title" style="margin:0">Instacart Reactivation</h3><div class="tiny">Instacart reactivation — price $149.90</div></div>
+              </div>
+
+              <div style="height:12px"></div>
+
+              <form class="reg-form" data-service="Instacart" autocomplete="on">
+                <label>Full name<input name="name" required placeholder="Full name"></label>
+                <label>Email address<input type="email" name="email" required placeholder="email@domain.com"></label>
+                <div class="row">
+                  <label>Phone number<input name="phone" required placeholder="+1 555 000 000"></label>
+                  <label>Location<input name="location" required placeholder="City, Country"></label>
+                </div>
+                <label>Payment method
+                  <select name="payment_method"><option value="bank">Bank</option><option value="crypto">Crypto</option></select>
+                </label>
+                <label>Activation code (optional)<input name="activation_code" placeholder="Optional"></label>
+                <label>Notes / Additional Details<textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea></label>
+
+                <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+                  <div class="muted">Price: <strong>$149.90</strong></div>
+                  <button type="submit" class="primary">Submit for Review</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Shipt -->
+          <section id="page-shipt" class="panel-page" aria-labelledby="shipt-title">
+            <div class="panel">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:56px;height:56px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(16,32,39,0.04);overflow:hidden">
+                  <img src="logo6.jpg" alt="shipt" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div><h3 id="shipt-title" style="margin:0">Shipt Reactivation</h3><div class="tiny">Shipt reactivation — price $149.90</div></div>
+              </div>
+
+              <div style="height:12px"></div>
+
+              <form class="reg-form" data-service="Shipt" autocomplete="on">
+                <label>Full name<input name="name" required placeholder="Full name"></label>
+                <label>Email address<input type="email" name="email" required placeholder="email@domain.com"></label>
+                <div class="row">
+                  <label>Phone number<input name="phone" required placeholder="+1 555 000 000"></label>
+                  <label>Location<input name="location" required placeholder="City, Country"></label>
+                </div>
+                <label>Payment method
+                  <select name="payment_method"><option value="bank">Bank</option><option value="crypto">Crypto</option></select>
+                </label>
+                <label>Activation code (optional)<input name="activation_code" placeholder="Optional"></label>
+                <label>Notes / Additional Details<textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea></label>
+
+                <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+                  <div class="muted">Price: <strong>$149.90</strong></div>
+                  <button type="submit" class="primary">Submit for Review</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Uber X -->
+          <section id="page-uberx" class="panel-page" aria-labelledby="uberx-title">
+            <div class="panel">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:56px;height:56px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(16,32,39,0.04);overflow:hidden">
+                  <img src="logo7.jpg" alt="uberx" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div><h3 id="uberx-title" style="margin:0">Uber X Reactivation</h3><div class="tiny">Uber X reactivation — price $149.90</div></div>
+              </div>
+
+              <div style="height:12px"></div>
+
+              <form class="reg-form" data-service="Uber X" autocomplete="on">
+                <label>Full name<input name="name" required placeholder="Full name"></label>
+                <label>Email address<input type="email" name="email" required placeholder="email@domain.com"></label>
+                <div class="row">
+                  <label>Phone number<input name="phone" required placeholder="+1 555 000 000"></label>
+                  <label>Location<input name="location" required placeholder="City, Country"></label>
+                </div>
+                <label>Payment method
+                  <select name="payment_method"><option value="bank">Bank</option><option value="crypto">Crypto</option></select>
+                </label>
+                <label>Activation code (optional)<input name="activation_code" placeholder="Optional"></label>
+                <label>Notes / Additional Details<textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea></label>
+
+                <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+                  <div class="muted">Price: <strong>$149.90</strong></div>
+                  <button type="submit" class="primary">Submit for Review</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px">
+        <div>© ReactivationHub — Professional Activations</div>
+        <div class="tiny">Price per activation: <strong>$149.90</strong> • Methods: Bank or Crypto</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Post-submit success (hidden until used) -->
+  <div id="success" style="display:none;padding:16px;border-radius:8px;background:#e8f7ff;margin:16px">
+    <p>Thanks — your request was prepared. The form data was downloaded as a PDF. Click the button below to open Gmail and send the message (attach the PDF manually).</p>
+    <a id="emailLink" class="btn" href="#">Open email app</a>
+  </div>
+
+  <!-- SCRIPT: UI + submission handling -->
+  <script>
+  (function(){
+    'use strict';
+
+    const ADMIN_EMAIL = 'Smartauthenticationchat@gmail.com';
+    const PDF_PREFIX = 'activation-request';
+
+    // Preloader hide
+    const PRE = document.getElementById('sa-preloader');
+    function hidePreloader(){
+      if(!PRE) return;
+      PRE.setAttribute('aria-hidden','true');
+      PRE.style.opacity='0';
+      PRE.style.visibility='hidden';
+      PRE.style.pointerEvents='none';
+    }
+    window.addEventListener('load', ()=> setTimeout(hidePreloader, 300));
+    document.addEventListener('DOMContentLoaded', ()=> setTimeout(hidePreloader, 600));
+    setTimeout(()=> { if(PRE && PRE.getAttribute('aria-hidden') !== 'true') hidePreloader(); }, 7000);
+
+    // open page helper
+    function openPageById(slug){
+      if(!slug) return;
+      const normalized = String(slug).trim().toLowerCase();
+      const id = 'page-' + normalized;
+      document.querySelectorAll('#pages > section').forEach(s=> s.classList.remove('active'));
+      const el = document.getElementById(id);
+      if(el){
+        el.classList.add('active');
+        setTimeout(()=> el.scrollIntoView({behavior:'smooth', block:'start'}), 60);
+      } else {
+        console.warn('No page found for:', id);
+      }
+    }
+
+    // Wire service-card clicks (supports keyboard because they are buttons)
+    document.querySelectorAll('.service-card[data-open]').forEach(card => {
+      card.addEventListener('click', ()=> openPageById(card.getAttribute('data-open')));
+      card.addEventListener('keydown', (e)=> { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPageById(card.getAttribute('data-open')); }});
+    });
+
+    // Wire menu anchors inside menu3d
+    document.querySelectorAll('#menu3d [data-open]').forEach(a=>{
+      a.addEventListener('click', (ev)=> {
+        ev.preventDefault();
+        const id = a.getAttribute('data-open');
+        if(id) openPageById(id);
+        const menu = document.getElementById('menu3d');
+        if(menu) menu.classList.remove('open');
+      });
+    });
+
+    // Toggle service menu (button + select)
+    const openBtn = document.getElementById('open-services');
+    const select3d = document.getElementById('select3d');
+    const menu3d = document.getElementById('menu3d');
+    if(openBtn){
+      openBtn.addEventListener('click', ()=> {
+        if(!menu3d) return;
+        const now = !menu3d.classList.contains('open');
+        menu3d.classList.toggle('open', now);
+        openBtn.setAttribute('aria-expanded', String(now));
+      });
+    }
+    if(select3d){
+      select3d.addEventListener('click', ()=> { if(menu3d) menu3d.classList.toggle('open'); });
+      select3d.addEventListener('keypress', (e)=> { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if(menu3d) menu3d.classList.toggle('open'); }});
+    }
+
+    // Contact button -> Gmail compose (mailto fallback)
+    const contactBtn = document.getElementById('contact-us');
+    if(contactBtn){
+      contactBtn.addEventListener('click', ()=> {
+        const subject = 'General inquiry — ReactivationHub';
+        const body = encodeURIComponent('Hello,%0D%0A%0D%0AI would like to contact the ReactivationHub team regarding: ' + subject + '%0D%0A%0D%0ARegards,%0D%0A[Your name]');
+        // try opening Gmail compose URL
+        const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(ADMIN_EMAIL) + '&su=' + encodeURIComponent(subject) + '&body=' + body;
+        const w = window.open(gmailUrl, '_blank');
+        if(!w) {
+          // popup blocked -> fallback to mailto
+          window.location.href = 'mailto:' + encodeURIComponent(ADMIN_EMAIL) + '?subject=' + encodeURIComponent(subject) + '&body=' + body;
+        }
+      });
+    }
+
+    // dynamic jsPDF loader
+    function loadJsPDF(){
+      return new Promise((resolve,reject)=>{
+        if(window.jspdf && (window.jspdf.jsPDF || window.jspdf.default)) return resolve(window.jspdf);
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+        s.onload = ()=> resolve(window.jspdf);
+        s.onerror = (e)=> reject(e);
+        document.head.appendChild(s);
+      });
+    }
+    function getJsPDFCtor(){
+      if(!window.jspdf) return null;
+      return window.jspdf.jsPDF || window.jspdf.default || window.jspdf;
+    }
+
+    // price helper
+    function formatPrice(){ try{ const p = getComputedStyle(document.documentElement).getPropertyValue('--price'); return '$' + (parseFloat(p) || 149.90).toFixed(2);}catch(e){ return '$149.90'; } }
+
+    // Delegated submit handler for .reg-form
+    document.addEventListener('submit', async function(ev){
+      const form = ev.target;
+      if(!form || !form.matches || !form.matches('.reg-form')) return;
+      ev.preventDefault();
+
+      try {
+        const fd = new FormData(form);
+        const payload = { service: form.dataset.service || 'Activation Request', price: formatPrice() };
+        fd.forEach((v,k)=> payload[k] = v);
+
+        if(!payload.name || !payload.email){
+          alert('Please provide your full name and a valid email address.');
+          return;
+        }
+
+        // attempt PDF generation
+        let savedFilename = '';
+        try {
+          await loadJsPDF();
+          const jsPDFCtor = getJsPDFCtor();
+          if(!jsPDFCtor) throw new Error('jsPDF ctor not available');
+          const doc = new jsPDFCtor();
+          doc.setFontSize(14);
+          doc.text('ReactivationHub — Activation Request', 14, 18);
+          doc.setFontSize(11);
+          let y = 30;
+          doc.text(`Service: ${payload.service}`, 14, y); y += 8;
+          doc.text(`Price: ${payload.price}`, 14, y); y += 10;
+          const keys = ['name','email','phone','location','payment_method','activation_code','notes'];
+          keys.forEach(k=> {
+            if(payload[k]) {
+              const label = k.replace(/_/g,' ');
+              const lines = doc.splitTextToSize(`${label}: ${payload[k]}`, 170);
+              doc.text(lines, 14, y);
+              y += (lines.length * 6) + 4;
+            }
+          });
+          doc.text('Generated by ReactivationHub portal.', 14, Math.min(y + 8, 280));
+          savedFilename = `${PDF_PREFIX}-${payload.service.replace(/\s+/g,'-')}-${Date.now()}.pdf`;
+          doc.save(savedFilename);
+        } catch (pdfErr) {
+          console.warn('PDF generation failed, falling back to JSON download', pdfErr);
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+          savedFilename = `${PDF_PREFIX}-${payload.service.replace(/\s+/g,'-')}-${Date.now()}.json`;
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = savedFilename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        }
+
+        // Build email body and open Gmail compose (mailto fallback)
+        const subject = `Activation request — ${payload.service} — ${payload.name || ''}`;
+        const bodyLines = [];
+        bodyLines.push(`Service: ${payload.service}`);
+        bodyLines.push(`Price: ${payload.price}`);
+        ['name','email','phone','location','payment_method','activation_code','notes'].forEach(k => {
+          if(payload[k]) bodyLines.push(`${k.replace('_',' ')}: ${payload[k]}`);
+        });
+        bodyLines.push('');
+        bodyLines.push('---');
+        bodyLines.push('This request was generated via ReactivationHub. A copy was downloaded locally; please attach it to this email if needed. We will respond within 24 hours.');
+        const body = encodeURIComponent(bodyLines.join('\n'));
+
+        // Try to open Gmail compose in new tab (preferred)
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(ADMIN_EMAIL)}&su=${encodeURIComponent(subject)}&body=${body}`;
+        const win = window.open(gmailUrl, '_blank');
+        if(!win) {
+          // popup blocked -> fallback to mailto
+          window.location.href = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
+        }
+
+        // show success block and prepare a short emailLink (so user can click manually)
+        const success = document.getElementById('success');
+        const emailLink = document.getElementById('emailLink');
+        if(success) {
+          try { form.style.display = 'none'; } catch(e){}
+          success.style.display = 'block';
+          if(emailLink) {
+            const shortBody = [
+              `Hello,`,
+              ``,
+              `My name is ${payload.name}. I have submitted an activation request for ${payload.service}. Please find details in this message.`,
+              ``,
+              `Details: Email: ${payload.email} • Phone: ${payload.phone || ''} • Location: ${payload.location || ''}`,
+              ``,
+              `Kind regards,`,
+              `${payload.name}`
+            ].join('\n');
+            emailLink.href = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(shortBody)}`;
+            emailLink.addEventListener('click', ()=> {
+              setTimeout(()=> alert('Reminder: attach the downloaded PDF (or JSON) to this email before sending.'), 250);
+            }, { once: true });
+          }
+        } else {
+          setTimeout(()=> alert('Your mail client was opened. Please attach the downloaded file and send the email.'), 250);
+        }
+
+        // toast and reset
+        const t = document.createElement('div'); t.className = 'sa-toast'; t.textContent = 'Document saved. Gmail compose opened (attach file if needed).'; document.body.appendChild(t);
+        setTimeout(()=> t.remove(), 6500);
+        try { form.reset(); } catch(e){}
+      } catch (err) {
+        console.error('Submit error', err);
+        alert('An unexpected error occurred. Check console for details.');
+      }
+    });
+
+    // keyboard accessibility: Enter/Space on elements with data-open
+    document.addEventListener('keydown', function(e){
+      if((e.key === 'Enter' || e.key === ' ') && e.target && e.target.hasAttribute && e.target.hasAttribute('data-open')) {
+        e.preventDefault();
+        openPageById(e.target.getAttribute('data-open'));
+      }
+    });
+
+    // clicking the menu select toggles menu3d
+    const sel = document.getElementById('select3d');
+    if(sel){
+      sel.addEventListener('click', ()=> {
+        const menu = document.getElementById('menu3d');
+        if(menu) menu.classList.toggle('open');
+      });
+    }
+
+    // close menu when clicking outside
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('menu3d');
+      const select = document.getElementById('select3d');
+      if(menu && select && !menu.contains(e.target) && !select.contains(e.target)) menu.classList.remove('open');
+    });
+
+    // deep link support
+    if(location.hash){
+      const slug = location.hash.replace('#','');
+      if(slug) setTimeout(()=> openPageById(slug), 250);
+    }
+  })();
+  </script>
+</body>
+</html>
